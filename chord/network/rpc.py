@@ -1,67 +1,64 @@
-from nodes import CurrentNode
+from common.utils import build_tcp_address
+from nodes import CurrentNode, Node
 from threading import Thread
-from xmlrpc.client import ServerProxy
-from xmlrpc.server import SimpleXMLRPCServer as RPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
 from yaml import safe_load
+from zerorpc import Client
 
 
-class ChordClient(ServerProxy):
-    def __init__(self, host, port):
-        ServerProxy.__init__(self, f'http://{host}:{port}')
-
-
-class Handler(SimpleXMLRPCRequestHandler):
+def remote_procedure_call(address, method, *args):
     """
-    Class to handle requests to the XML-RPC server.
+    A wrapper for the remote procedure call.
+
+    args:
+        method: the method to be called (str)
+        *args: the arguments to be passed to the method (tuple)
+    """
+    client = Client()
+    client.connect(build_tcp_address())
+    response = client(method, *args)
+    client.close()
+    return response
+
+
+class ChordClient:
+    """
+    An RPC-friendly client for the chord ring.
 
     attr:
-        rpc_paths: the paths that the server will listen to (tuple of strings)
+        host: the ip address of the node (str)
+        port: the port of the node (str)
+        name: the name of the node (str)
     """
 
-    def __init__(self, rpc_paths: tuple = ('/rpc',)):
-        self.rpc_paths = rpc_paths
+    def __init__(self, host: str, port: str, name: str):
+        self.host = host
+        self.port = port
+        self.name = name
 
-
-class ChordServer(RPCServer):
-    """
-    Class to create an XML-RPC server, using properties from the CurrentNode class.
-
-    attr:
-        node: the current node for the server (CurrentNode)
-    """
-
-    def __init__(self, node: CurrentNode, config_file_path: str = 'config/default.yaml'):
-        Thread.__init__(self)
-        self.node = node
-        self.tcp_server = self.load_tcp_configs(config_file_path)
-
-    def load_tcp_configs(self, config_file_path: str):
+    def build_tcp_address(self):
         """
-        Loads the TCP configurations from a YAML file.
+        Builds the tcp call address for the node.
+
+        returns:
+            address: the address of the node (str)
+        """
+        return f'tcp://{self.host}:{self.port}'
+
+    def get_node_info_by_key(self, key: str):
+        """
+        Gets the node info for the node that owns the key.
 
         args:
-            config_file_path: the path to the YAML file (str)
+            key: the key to be searched for (str)
         """
-        with open(config_file_path, 'r') as config_file:
-            configs = safe_load(config_file)
-            # more configs can be easily added here
-            # consider making this more dynamic
-            allow_none = configs['allow_none']
+        return self._remote_procedure_call('get_node_by_key', [key])
 
-        return RPCServer((self.node.host, int(self.node.port)),
-                         requestHandler=Handler, allow_none=allow_none)
+    def add_new_key(self, key: str, value: str):
+        """
+        Adds a new key to the ring.
 
-    def start(self):
+        args:
+            key: the key to be added (str)
+            value: the value to be added (str)
         """
-        Registers the CurrentNode class with the XML-RPC server and starts the server.
-        """
-        self.tcp_server.register_instance(self.node)
-        self.tcp_server.serve_forever()
-
-    def stop(self):
-        """
-        Stops the XML-RPC server.
-        """
-        self.tcp_server.shutdown()
-        self.tcp_server.server_close()
+        return self._remote_procedure_call('add_new_key', [key, value])
