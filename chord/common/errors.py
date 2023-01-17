@@ -28,11 +28,25 @@ class KeySizeError(Error):
     """Exception raised for errors in the key size.
 
     attributes:
+        expected: a string for the number of characters expected
+        actual: the received value
+    """
+
+    def __init__(self, actual: str):
+        self.expected = "64 characters"
+        self.actual = actual
+        super().__init__()
+
+
+class NodeKeyDoesNotExistError(Error):
+    """Exception raised for errors in the key size.
+
+    attributes:
         expected: the expected value or range of values (str)
         actual: the actual value (str)
     """
 
     def __init__(self, actual: str):
-        self.expected = "64 characters"
+        self.expected = "A node object associated with the key"
         self.actual = actual
         super().__init__()

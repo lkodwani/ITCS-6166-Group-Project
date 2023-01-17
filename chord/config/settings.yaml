@@ -1,10 +1,8 @@
 chord:
-  num_successors: 3 # successors list length for each node
-  max_ring_size: 1000 # maximum number of nodes in the ring
+  ring_size: 161 # a tribute to Russ Ross
+  max_num_successors: 3 # successors list length for each node
   retry_limit: 4 # number of times to retry a request for a node
-  retry_interval: 4000 # time to wait before retrying a request for a node 
+  retry_delay: 4000 # time to wait before retrying a request for a node 
 
-
-tcp_server:
-  allow_none: True
-  log_requests: True
+custom:
+  titles: ["Queen", "Drone", "Worker", "Soldier"]
