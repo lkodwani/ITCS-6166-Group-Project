@@ -4,7 +4,6 @@
 
 - Trevon Cornwell
 - Lucky Kodwani
-- Lohitha Byrraju
 - David Gary
 - Brian Borgia
 - Joseph Mauney

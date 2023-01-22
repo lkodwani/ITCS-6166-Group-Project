@@ -1,8 +1,0 @@
-chord:
-  ring_size: 161 # a tribute to Russ Ross
-  max_num_successors: 3 # successors list length for each node
-  retry_limit: 4 # number of times to retry a request for a node
-  retry_delay: 4000 # time to wait before retrying a request for a node 
-
-custom:
-  titles: ["Queen", "Drone", "Worker", "Soldier"]
