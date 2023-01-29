@@ -7,3 +7,9 @@
 - David Gary
 - Brian Borgia
 - Joseph Mauney
+
+## Introduction
+
+## Architecture
+
+## Biweekly Plan
