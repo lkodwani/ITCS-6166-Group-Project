@@ -1,0 +1,51 @@
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 2em;
+  color: #373840;
+}
+
+h1,
+h2,
+h3 {
+  font-style: bold;
+  color: #3c5672;
+}
+
+
+video {
+  display: block;
+}
+
+section {
+  opacity: 1;
+  transition: opacity ease-in-out 700ms;
+}
+
+.localCamera {
+  position: relative;
+  float: left;
+  width: calc(50%);
+  margin: 10px;
+  cursor: pointer;
+}
+
+.localCamera p {
+  position: absolute;
+  background-color: rgba(0, 217, 255, 0.85);
+  border: 3px solid #000000;
+  color: #FFF;
+  font-size: 20px;
+}
+
+.frame {
+  border: 3px solid #000000;
+  position: absolute;
+}
+
+.removed {
+  display: none;
+}
+
+.hidden {
+  opacity: 0.15;
+}
