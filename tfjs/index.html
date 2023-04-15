@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-recognition"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/iris-detection"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/semantic-segmentation"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+  <!-- <script src="coco-ssd"></script> -->
+
+  <script src="script.js" defer></script>
+  <title>Object Detection</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>ML-Augmented, WebRTC Video Chat</h1>
+
+  <section id="models" class="hidden">
+    <h2>Models</h2>
+    <div id="modelsLoadTime"></div>
+    <!-- a list of radio buttons to indicate which model to load -->
+    <div class="model">
+      <input type="radio" id="ssd" name="modelType" value="ssd">
+      <label for="ssd">SSD</label>
+    </div>
+    <div class="model">
+      <input type="radio" id="handpose" name="modelType" value="handpose">
+      <label for="handpose">Hand Pose</label>
+    </div>
+  </section>
+
+
+  <section id="options" class="hidden">
+
+    <h2>Options</h2>
+
+    <section id="cocoSsdOptions" class="hidden">
+      <div class="switch">
+        <input type="checkbox" id="personSwitch" name="personSwitch">
+        <label for="personSwitch">Person</label>
+      </div>
+      <div class="switch">
+        <input type="checkbox" id="objectSwitch" name="objectSwitch">
+        <label for="objectSwitch">Object</label>
+    </section>
+
+    <section id="handPoseOptions" class="hidden">
+      <div class="switch">
+        <input type="checkbox" id="handSwitch" name="handSwitch">
+        <label for="handSwitch">Hand</label>
+      </div>
+    </section>
+
+    <div id="localStream" class="localCamera">
+      <button id="webcamButton" capture="camera">Start Camera</button>
+      <video id="webcam" autoplay playsinline width="600" height="400"></video>
+    </div>
+
+  </section>
+
+</body>
+
+</html>
