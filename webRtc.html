@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Group1 WebRTC App</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background-color: #f5f5f5;
+		}
+
+		h1 {
+			color: #006699;
+			font-size: 36px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			text-align: center;
+			text-shadow: 2px 2px #e0e0e0;
+		}
+
+		
+		h2 {
+			color: #006699;
+			font-size: 28px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			text-align: left;
+			text-shadow: 2px 2px #e0e0e0;
+		}
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: flex-start;
+			height: 100vh;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		.video-container {
+			flex: 2;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 20px;
+			box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+			box-sizing: border-box;
+			margin: 20px;
+		}
+
+
+
+		.video {
+			width: 45%;
+			height: 700px;
+			background-color: #ccc;
+			border-radius: 5px;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.video video {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.controls {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.button {
+			border: none;
+			background-color: #006699;
+			color: #fff;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-right: 10px;
+			transition: all 0.2s ease;
+		}
+
+		.button:hover {
+			background-color: #004466;
+		}
+
+
+		/* Set styles for the settings box container */
+		.settings-box {
+		
+			border: 1px solid #ccc;
+
+
+
+				width: 500px;
+			background-color: #fff;
+			border-radius: 20px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			margin: 20px;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		/* Set styles for the settings header */
+		.settings-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		/* Set styles for the settings icon */
+		.settings-header i {
+			font-size: 24px;
+			color: #888;
+			margin-right: 10px;
+		}
+
+		/* Set styles for the settings text */
+		.settings-header h3 {
+			font-size: 18px;
+			color: #333;
+			margin: 0;
+		}
+
+		/* Set styles for the settings buttons */
+		.settings-content button {
+			display: block;
+			margin-bottom: 10px;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+
+
+			background-color: #006699;
+			color: #fff;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		/* Set hover styles for the settings buttons */
+		.settings-content button:hover {
+			background-color: #004466;
+		}
+
+
+		.chat-box {
+			width: 500px;
+			background-color: #fff;
+			border-radius: 20px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			margin: 20px;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		.chat-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.chat-header img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+
+		.chat-header h3 {
+			font-size: 20px;
+			color: #333;
+			margin: 0;
+		}
+
+		.chat-history {
+			height: 300px;
+			overflow-y: scroll;
+			margin-bottom: 20px;
+		}
+
+		.chat-message {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			margin-bottom: 10px;
+		}
+
+		.chat-message p {
+			padding: 10px;
+			border-radius: 10px;
+			font-size: 16px;
+			margin: 0;
+			max-width: 70%;
+			word-wrap: break-word;
+			line-height: 1.5;
+		}
+
+		.chat-message.sent p {
+			background-color: #007bff;
+			color: #fff;
+			align-self: flex-end;
+			max-width: 100%;
+		}
+
+		.chat-message.received p {
+			background-color: #eee;
+			color: #333;
+			align-self: flex-start;
+			max-width: 100%;
+		}
+
+		.chat-message.time {
+			font-size: 12px;
+			color: #888;
+			margin-top: 5px;
+			align-self: flex-end;
+		}
+
+		
+		.chat-message.receivetime {
+			font-size: 12px;
+			color: #888;
+			margin-top: 5px;
+			
+		}
+
+		.input-box {
+			display: flex;
+			align-items: center;
+			margin-top: 10px;
+		}
+
+		.input-box input[type=text] {
+			flex-grow: 1;
+			padding: 10px;
+			border: 2px solid #ccc;
+			border-radius: 5px;
+			font-size: 16px;
+			outline: none;
+		}
+
+		.input-box button {
+
+			padding: 10px 20px;
+			font-size: 18px;
+			border: none;
+			border-radius: 5px;
+			margin-left: 10px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+			background-color: #006699;
+			color: #fff;
+			font-weight: bold;
+
+		}
+
+		.input-box button:hover {
+			background-color: #004466;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Group1 WebRTC App</h1>
+	<div class="container">
+		<div>
+			<div class="settings-box">
+				<div class="settings-header">
+					<h2>Settings</h2>
+				</div>
+				<div class="settings-content">
+					<button class="button">Local ML Model</button>
+					<button class="button">TURN Server Model</button>
+					<button class="button">Open CV</button>
+				</div>
+			</div>
+			<div class="chat-box">
+				<h2>Chat</h2>
+				<div class="chat-header">
+					<img src="https://i.imgur.com/6kEP6hj.jpg" alt="User Profile Picture">
+					<h3> User1 </h3>
+				</div>
+				<div class="chat-history">
+					<div class="chat-message received">
+						<p>Hello! How are you doing today?</p>
+						<div class="chat-message receivetime">Received on 2023-04-16 at 10:30 AM</div>
+					</div>
+					<div class="chat-message sent">
+						<p>Hi! I'm doing well, thanks for asking. How about you?</p>
+						<div class="chat-message time">Sent on 2023-04-16 at 10:31 AM</div>
+					</div>
+					<div class="chat-message received">
+						<p>I'm doing pretty good too. Just working on WebRTC project.</p>
+						<div class="chat-message receivetime">Received on 2023-04-16 at 10:32 AM</div>
+					</div>
+					<div class="chat-message sent">
+						<p>Great! All the best.</p>
+						<div class="chat-message time">Sent on 2023-04-16 at 10:32 AM</div>
+					</div>
+				</div>
+				<div class="input-box">
+					<input type="text" placeholder="Type a message...">
+					<button id="sendMessageButton">Send</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="video-container">
+			<div class="caller-video video">
+				<video id="callerVideo" autoplay></video>
+				<h2>Peer1(Caller)</h2>
+			</div>
+			<div class="receiver-video video">
+				<video id="receiverVideo" autoplay></video>
+				<h2>Peer2(Receiver)</h2>
+			</div>
+			<div class="controls">
+				<button class="button" id="startCallButton">Start Call</button>
+				<button class="button" id="endCallButton">End Call</button>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		const startCallButton = document.getElementById('startCallButton');
+		const endCallButton = document.getElementById('endCallButton');
+		const callerVideo = document.getElementById('callerVideo');
+		const receiverVideo = document.getElementById('receiverVideo');
+		const sendMessageButton = document.getElementById('sendMessageButton');
+
+
+		let localStream, remoteStream;
+
+		const startCall = async () => {
+			try {
+				localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+				callerVideo.srcObject = localStream;
+
+				// TODO: Implement signaling and negotiation with server to establish a call
+
+				// For demo purposes only, show the remote stream as the receiver's video
+				remoteStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+				receiverVideo.srcObject = remoteStream;
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		const endCall = () => {
+			if (localStream) {
+				localStream.getTracks().forEach(track => track.stop());
+				callerVideo.srcObject = null;
+				localStream = null;
+				// TODO: Send signal to server to end call
+			}
+
+			if (remoteStream) {
+				remoteStream.getTracks().forEach(track => track.stop());
+				receiverVideo.srcObject = null;
+				remoteStream = null;
+			}
+		};
+
+
+		const sendMessage = () => {
+
+		};
+
+		startCallButton.addEventListener('click', startCall);
+		endCallButton.addEventListener('click', endCall);
+		sendMessageButton.addEventListener('click', sendMessage);
+		
+	</script>
